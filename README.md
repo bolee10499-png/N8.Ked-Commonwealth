@@ -8,6 +8,8 @@
 
 **60+ Active Commands** | **12 Database Tables** | **ARIEUS Economy** | **N8.KED ROACH Engine**
 
+**🏛️ [Join The N8.KED Commonwealth](https://discord.gg/kDccFKTKE)** | **📊 [Live Dashboard](https://bolee10499-png.github.io/N8.Ked-Commonwealth/)** | **🐦 [@N8KED_Sovereign](https://twitter.com/N8KED_Sovereign)**
+
 ---
 
 ## 🎯 What Is This?
