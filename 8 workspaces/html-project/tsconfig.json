@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "./screens/*"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "screens",
+    "App.tsx"
+  ],
+  "extends": "expo/tsconfig.base"
+}

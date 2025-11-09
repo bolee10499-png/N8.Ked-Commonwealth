@@ -1,0 +1,129 @@
+# Broken logic from discord_bot.py
+
+@bot.command()
+async def security_status(ctx):
+    status = await security_team.get_system_status()
+    await ctx.send(f"Security Posture: {status['overall_health']}")
+
+@bot.command()
+async def game_mine(ctx):
+    result = await game.handle_game_command(ctx.author.id, "mine_dust", {})
+    await ctx.send(result)
+
+@bot.command()
+async def analyze(ctx, module: str):
+    analysis = await security_team.roles['analyst'].real_time_threat_detection()
+    await ctx.send(f"Analysis for {module}: {analysis}")
+
+@bot.command()
+async def threat_report(ctx):
+    report = await security_team.get_threat_report()
+    await ctx.send(f"Threat Report: {report}")
+
+@bot.command()
+async def explore(ctx, location: str):
+    security_check = await security_team.analyze_player_action(ctx.author.id, "explore", {"location": location})
+    if not security_check['approved']:
+        return await ctx.send(f"🚫 Exploration blocked: {security_check['reason']}")
+    scene_data = await generate_scene(location, ctx.author.id)
+    webhook = await get_webhook(ctx.channel)
+    await webhook.send(
+        embed=discord.Embed(
+            title=f"Exploring {location}",
+            description=scene_data['description'],
+            color=0x00ff00
+        ),
+        file=discord.File(scene_data['image_path'])
+    )
+    dust_reward = calculate_exploration_reward(scene_data)
+    await dust_economy.add_dust(ctx.author.id, dust_reward)
+    await security_team.roles['soc_analyst'].log_exploration(ctx.author.id, location, dust_reward)
+
+@bot.command()
+async def challenge(ctx, target: discord.Member, stake: int):
+    exploit_check = await security_team.roles['pentester'].validate_pvp_action(ctx.author.id, target.id, stake)
+    if exploit_check['blocked']:
+        return await ctx.send(f"⚔️ Challenge blocked: {exploit_check['reason']}")
+    battle = PVPBattle(ctx.author, target, stake)
+    battle_id = await battle.create_challenge()
+    webhook = await get_webhook(ctx.channel)
+    battle_image = await generate_battle_scene(ctx.author, target)
+    await webhook.send(
+        content=f"⚔️ **BATTLE CHALLENGE** ⚔️\n{ctx.author.mention} challenges {target.mention} for {stake} dust!",
+        embed=discord.Embed(description=f"Type `/accept {battle_id}` to fight!"),
+        file=discord.File(battle_image)
+    )
+    await security_team.roles['analyst'].monitor_gambling_patterns(ctx.author.id, target.id, stake, 'pvp_challenge')
+
+@bot.command()
+async def build(ctx, structure: str):
+    build_check = await security_team.roles['engineer'].validate_construction(ctx.author.id, structure)
+    if not build_check['approved']:
+        return await ctx.send(f"🏗️ Construction denied: {build_check['reason']}")
+    cost = get_structure_cost(structure)
+    if not await dust_economy.deduct_dust(ctx.author.id, cost):
+        return await ctx.send("❌ Insufficient dust for construction!")
+    player_base = await get_player_base(ctx.author.id)
+    new_building = await player_base.construct(structure)
+    webhook = await get_webhook(ctx.channel)
+    structure_image = await generate_structure_image(structure, ctx.author)
+    await webhook.send(
+        embed=discord.Embed(
+            title="🏗️ Construction Complete!",
+            description=f"{ctx.author.mention} built **{structure}**\nCost: {cost} dust\nIncome: +{new_building.income}/hour",
+            color=0xffd700
+        ),
+        file=discord.File(structure_image)
+    )
+    await security_team.roles['consultant'].update_economic_impact('construction', structure, cost, ctx.author.id)
+
+@bot.command()
+async def discover(ctx, research_field: str):
+    research_check = await security_team.roles['appsec'].validate_research(ctx.author.id, research_field)
+    if research_check['blocked']:
+        return await ctx.send(f"🔬 Research blocked: {research_check['reason']}")
+    if not await research_tree.can_research(ctx.author.id, research_field):
+        return await ctx.send("❌ Research prerequisites not met!")
+    research_time = get_research_duration(research_field)
+    research_cost = get_research_cost(research_field)
+    await dust_economy.deduct_dust(ctx.author.id, research_cost)
+    research_id = await research_tree.start_research(ctx.author.id, research_field)
+    webhook = await get_webhook(ctx.channel)
+    research_image = await generate_research_image(research_field)
+    message = await webhook.send(
+        embed=discord.Embed(
+            title="🔬 Research Started!",
+            description=f"{ctx.author.mention} began researching **{research_field}**\n⏰ Completion: {research_time} hours\n💸 Cost: {research_cost} dust",
+            color=0x9b59b6
+        ),
+        file=discord.File(research_image)
+    )
+    await schedule_research_completion(research_id, research_field, ctx.author, message)
+
+@bot.command()
+async def dimension(ctx, rift_type: str):
+    reality_check = await security_team.roles['ciso'].approve_reality_shift(ctx.author.id, rift_type)
+    if reality_check['risk_level'] == 'CRITICAL':
+        return await ctx.send("🚫 Dimensional travel too dangerous at your security clearance!")
+    dimension_data = await dimensional_bridge.enter_dimension(ctx.author.id, rift_type, security_context=reality_check)
+    dimension_cost = calculate_dimension_cost(rift_type)
+    await dust_economy.deduct_dust(ctx.author.id, dimension_cost)
+    webhook = await get_webhook(ctx.channel)
+    dimension_image = await generate_dimension_scene(rift_type, dimension_data)
+    await webhook.send(
+        embed=discord.Embed(
+            title=f"🌀 Entering {rift_type} Dimension",
+            description=dimension_data['description'],
+            color=0xff00ff
+        ).add_field(
+            name="Reality Stability",
+            value=f"{dimension_data['stability']}%",
+            inline=True
+        ).add_field(
+            name="Dust Cost",
+            value=f"{dimension_cost}",
+            inline=True
+        ),
+        file=discord.File(dimension_image)
+    )
+    await security_team.roles['forensics'].log_reality_shift(ctx.author.id, rift_type, dimension_data)

@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run Blender API internal test",
+			"type": "shell",
+			"command": "python blender_service/test_blender_api.py",
+			"isBackground": false,
+			"group": "test"
+		},
+		{
+			"label": "Run React internal tests",
+			"type": "shell",
+			"command": "npm test",
+			"isBackground": false,
+			"group": "test"
+		}
+	]
+}

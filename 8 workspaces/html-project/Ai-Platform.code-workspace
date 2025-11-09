@@ -1,0 +1,53 @@
+{
+  "folders": [
+    {
+      "path": "demonseatkids-v2"
+    },
+    {
+      "path": "n8-ked-discord"
+    },
+    {
+      "path": "geometry-visualization"
+    },
+    {
+      "path": "blender-animation"
+    },
+    {
+      "path": "brand-assets"
+    },
+    {
+      "path": "Ai/workflow"
+    },
+    {
+      "path": "Ai/demonseatkids-v2"
+    },
+    {
+      "path": "Ai/.vscode"
+    },
+    {
+      "path": "Ai/.venv"
+    },
+    {
+      "path": "demonseatkids/.github"
+    },
+    {
+      "path": "demonseatkids/public"
+    },
+    {
+      "path": "demonseatkids/src"
+    },
+    {
+      "path": "kidseatdemons"
+    },
+    {
+      "path": "project"
+    },
+    {
+      "path": "ReactWorkflow"
+    },
+    {
+      "path": "ReactBackups"
+    }
+  ],
+  "settings": {}
+}

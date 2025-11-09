@@ -2,30 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "../payment-systems"
-		},
-		{
-			"path": "../discord-integration"
-		},
-		{
-			"path": "../html-project"
-		},
-		{
-			"path": "../supdep-bot"
-		},
-		{
-			"path": "../shared-config"
-		},
-		{
-			"path": "../security_team"
-		},
-		{
-			"path": "../geometry-visual"
-		},
-		{
-			"path": "../n8ked_bot"
 		}
 	],
 	"settings": {}

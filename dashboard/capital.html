@@ -4,100 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>N8.KED Authority | The Digital Commonwealth</title>
+    <link rel="stylesheet" href="../web-overlay/style.css">
     <style>
-        /* === RESET & BASE === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Additional capital-specific styles */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
-            overflow-x: hidden;
+        
+        .metric-card {
+            background: var(--bg-tertiary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
         }
-
-        /* === HEADER === */
-        header {
-            background: rgba(20, 20, 30, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem 3rem;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        
+        .metric-card:hover {
+            border-color: var(--color-sovereignty);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
         }
-
-        h1 {
+        
+        .metric-value {
             font-size: 3rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #64b5f6 0%, #90caf9 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
+            color: var(--color-sovereignty);
             margin-bottom: 0.5rem;
         }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #90caf9;
-            font-weight: 300;
+        
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        /* === MAIN LAYOUT === */
-        main {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            padding: 3rem;
-            max-width: 1800px;
-            margin: 0 auto;
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--color-growth);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
-
-        /* === CARD STYLE === */
-        .data-card {
-            background: rgba(30, 30, 45, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(100, 181, 246, 0.2);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
-
-        .data-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #64b5f6 0%, #42a5f5 100%);
-        }
-
-        .data-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 48px rgba(100, 181, 246, 0.2);
-            border-color: rgba(100, 181, 246, 0.4);
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #64b5f6;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .card-icon {
-            font-size: 1.8rem;
+    </style>
+</head>
+<body>
         }
 
         /* === HERALD LOG === */

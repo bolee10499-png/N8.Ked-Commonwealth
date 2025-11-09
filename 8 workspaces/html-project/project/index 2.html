@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Sigil Kawaii Universe</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffcce6, #ccf2ff, #e6ccff);
+            color: #6666ff;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 5px dotted #ff66b2;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 
+                0 0 50px #ff99cc,
+                inset 0 0 20px #ccf2ff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: "♡ ☆ ♡ ☆ ♡";
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 1.5em;
+            color: #ff66b2;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            color: #ff66b2;
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 3px 3px 0 #ccf2ff;
+            background: linear-gradient(45deg, #ff66b2, #6666ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cyber-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .grid-item {
+            background: rgba(255, 255, 255, 0.7);
+            border: 3px solid #6666ff;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .grid-item:hover {
+            transform: translateY(-10px) rotate(2deg);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(102, 102, 255, 0.3);
+        }
+        
+        .sigil {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .nav-button {
+            display: block;
+            width: 250px;
+            margin: 40px auto;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ff66b2, #6666ff);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(255, 102, 178, 0.5);
+            transition: all 0.3s;
+        }
+        
+        .nav-button:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 8px 25px rgba(255, 102, 178, 0.7);
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .cute-divider {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 2em;
+            color: #ff66b2;
+        }
+        
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-text::before {
+            color: #ccf2ff;
+            animation: glitch-1 2s infinite linear alternate-reverse;
+        }
+        
+        .glitch-text::after {
+            color: #ff99cc;
+            animation: glitch-2 3s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-1 {
+            0% { transform: translate(0); }
+            50% { transform: translate(-2px, 2px); }
+            100% { transform: translate(2px, -2px); }
+        }
+        
+        @keyframes glitch-2 {
+            0% { transform: translate(0); }
+            50% { transform: translate(2px, -2px); }
+            100% { transform: translate(-2px, 2px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="glitch-text" data-text="Cyber Kawaii Sigil">Cyber Kawaii Sigil</h1>
+            <p>✧ where technology meets cuteness ✧</p>
+        </div>
+        
+        <div class="cyber-grid">
+            <div class="grid-item floating">
+                <div class="sigil">⚡♡</div>
+                <h3>Energy Sigils</h3>
+                <p>Charged with positive vibes and digital love!</p>
+            </div>
+            
+            <div class="grid-item floating" style="animation-delay: 0.5s;">
+                <div class="sigil">🌸💾</div>
+                <h3>Data Flowers</h3>
+                <p>Blooming algorithms in pastel colors</p>
+            </div>
+            
+            <div class="grid-item floating" style="animation-delay: 1s;">
+                <div class="sigil">🐰🔮</div>
+                <h3>Bunny Tech</h3>
+                <p>Fluffy creatures with cyber enhancements</p>
+            </div>
+            
+            <div class="grid-item floating" style="animation-delay: 1.5s;">
+                <div class="sigil">🌈✨</div>
+                <h3>Rainbow Magic</h3>
+                <p>Digital sparkles everywhere!</p>
+            </div>
+        </div>
+        
+        <div class="cute-divider">
+            ♡ ~ ☆ ~ ♡ ~ ☆ ~ ♡
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <h2 class="bounce">Welcome to the Cute Dimension!</h2>
+            <p>This space is protected by kawaii sigils and cyber bunnies.</p>
+            <p>All systems are running on positive energy and pastel colors! 🌸</p>
+        </div>
+        
+        <a href="deftones.html" class="nav-button">
+            ← RETURN TO GOTH REALM
+        </a>
+        
+        <div style="text-align: center; margin-top: 40px; font-size: 0.8em; color: #ff66b2;">
+            ✦ Cyber Sigil Protection Active ✦<br>
+            Kawaii Energy: 100% • Cute Factor: Maximum
+        </div>
+    </div>
+
+    <script>
+        // Add floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '20px';
+            particle.style.height = '20px';
+            particle.style.background = 'transparent';
+            particle.style.pointerEvents = 'none';
+            particle.style.fontSize = '20px';
+            particle.innerHTML = ['♡', '☆', '🌸', '✨', '🐰'][Math.floor(Math.random() * 5)];
+            particle.style.color = ['#ff66b2', '#6666ff', '#66ffcc', '#ffcc66'][Math.floor(Math.random() * 4)];
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = '100vh';
+            particle.style.opacity = '0.7';
+            document.body.appendChild(particle);
+            
+            const animation = particle.animate([
+                { transform: 'translateY(0) rotate(0deg)', opacity: 0.7 },
+                { transform: `translateY(-100vh) rotate(${360 + Math.random() * 360}deg)`, opacity: 0 }
+            ], {
+                duration: 3000 + Math.random() * 4000,
+                easing: 'cubic-bezier(0.2, 0, 0.8, 1)'
+            });
+            
+            animation.onfinish = () => particle.remove();
+        }
+        
+        // Create particles periodically
+        setInterval(createParticle, 500);
+        
+        // Initial particles
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createParticle, i * 200);
+        }
+    </script>
+</body>
+</html>

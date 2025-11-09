@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoGoth Space - Deftones Zone</title>
+    <style>
+        body {
+            background: #000000;
+            color: #ff00ff;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 20% 50%, #330033 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #660066 0%, transparent 50%);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 3px solid #ff00ff;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 30px #ff00ff;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px dashed #ff00ff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            font-size: 2.5em;
+            margin: 0;
+        }
+        
+        .profile-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .profile-pic {
+            border: 3px solid #ff00ff;
+            padding: 5px;
+            background: #000;
+        }
+        
+        .profile-pic img {
+            width: 100%;
+            filter: grayscale(100%) contrast(150%);
+        }
+        
+        .music-player {
+            background: #111;
+            border: 2px solid #00ffff;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .nav-button {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px;
+            background: #ff00ff;
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #00ffff;
+            transition: all 0.3s;
+        }
+        
+        .nav-button:hover {
+            background: #00ffff;
+            color: #000;
+            transform: scale(1.1);
+        }
+        
+        .blink {
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .status {
+            color: #00ff00;
+            font-style: italic;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="blink">✞ NEOGOTH SPACE ✞</h1>
+            <div class="status">CURRENTLY LISTENING TO: DIGITAL BATH</div>
+        </div>
+        
+        <div class="profile-section">
+            <div class="profile-pic">
+                <!-- Placeholder for profile image -->
+                <div style="background: #330033; height: 200px; display: flex; align-items: center; justify-content: center; color: #ff00ff;">
+                    PROFILE PIC
+                </div>
+            </div>
+            <div>
+                <h2>ABOUT ME</h2>
+                <p>"When you're ripe, you'll bleed out of control..."</p>
+                <p>• 23 • VAMPIRE • GOTH • INDUSTRIAL •</p>
+                <p>Mood: Dark & Romantic</p>
+                <p>Listening to: Deftones - White Pony</p>
+            </div>
+        </div>
+        
+        <div class="music-player">
+            <h3>♫ MY SOUNDTRACK ♫</h3>
+            <p>Deftones - Digital Bath (Playing...)</p>
+            <audio id="deftonesAudio" loop>
+                <!-- Audio source would be added here -->
+                <source src="#" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div>
+                <button onclick="playAudio()" style="background: #ff00ff; color: black; border: none; padding: 10px; margin: 5px;">PLAY</button>
+                <button onclick="pauseAudio()" style="background: #00ffff; color: black; border: none; padding: 10px; margin: 5px;">PAUSE</button>
+            </div>
+        </div>
+        
+        <div>
+            <h3>MY INTERESTS</h3>
+            <ul>
+                <li>Industrial Music</li>
+                <li>Vampire Literature</li>
+                <li>Digital Art</li>
+                <li>Late Night Drives</li>
+                <li>Abandoned Places</li>
+            </ul>
+        </div>
+        
+        <a href="cyber_kawaii.html" class="nav-button">
+            ENTER KAWAII DIMENSION →
+        </a>
+    </div>
+
+    <script>
+        function playAudio() {
+            // In a real implementation, this would play Deftones music
+            console.log("Deftones music would start playing");
+        }
+        
+        function pauseAudio() {
+            console.log("Music paused");
+        }
+        
+        // Simulate typing effect for status
+        const statuses = [
+            "CURRENTLY LISTENING TO: DIGITAL BATH",
+            "MOOD: NOCTURNAL",
+            "STATUS: AESTHETICALLY DECLINING",
+            "PLAYING: WHITE PONY (FULL ALBUM)"
+        ];
+        
+        let statusIndex = 0;
+        setInterval(() => {
+            document.querySelector('.status').textContent = statuses[statusIndex];
+            statusIndex = (statusIndex + 1) % statuses.length;
+        }, 3000);
+    </script>
+</body>
+</html>

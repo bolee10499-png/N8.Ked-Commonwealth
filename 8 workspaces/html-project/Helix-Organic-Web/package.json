@@ -1,0 +1,21 @@
+{
+  "name": "helix-organic-web",
+  "version": "1.0.0",
+  "description": "A multi-page organic interface scaffold exploring the Helix governance metaphor across research, commerce, and immersive dashboards.",
+  "type": "module",
+  "scripts": {
+    "start": "npx serve .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@barba/core": "^2.10.3",
+    "animejs": "^4.2.2",
+    "framer-motion": "^12.23.24",
+    "gsap": "^3.13.0",
+    "stripe": "^19.1.0",
+    "three": "^0.180.0"
+  }
+}
