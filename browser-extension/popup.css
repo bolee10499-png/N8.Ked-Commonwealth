@@ -1,0 +1,286 @@
+/* N8.KED - The Naked Authority */
+/* Constitutional Design System */
+
+:root {
+  /* Parchment palette - constitutional aesthetic */
+  --parchment-bg: #faf8f3;
+  --parchment-dark: #e8e4dc;
+  --ink-black: #1a1612;
+  --ink-gray: #4a4540;
+  --seal-red: #8b2e2e;
+  --seal-gold: #c9a961;
+  --border-subtle: #d4cfc5;
+  
+  /* Typography - serif for authority */
+  --font-serif: 'Georgia', 'Palatino', serif;
+  --font-mono: 'Courier New', monospace;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 400px;
+  min-height: 500px;
+  font-family: var(--font-serif);
+  background: var(--parchment-bg);
+  color: var(--ink-black);
+  line-height: 1.6;
+}
+
+.container {
+  padding: var(--spacing-lg);
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--seal-gold);
+  padding-bottom: var(--spacing-md);
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--ink-black);
+  margin-bottom: var(--spacing-xs);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--ink-gray);
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+/* Status Section */
+.status-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.status-message {
+  padding: var(--spacing-md);
+  background: var(--parchment-dark);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  text-align: center;
+  color: var(--ink-gray);
+  font-size: 14px;
+}
+
+/* Identity Section */
+.identity-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.identity-card,
+.reputation-card {
+  background: white;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink-gray);
+  margin-bottom: var(--spacing-sm);
+  font-weight: bold;
+}
+
+.sovereign-key {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.key-text {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-black);
+  word-break: break-all;
+  flex: 1;
+}
+
+.copy-btn {
+  background: var(--parchment-dark);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: var(--seal-gold);
+  border-color: var(--seal-gold);
+}
+
+.reputation-score {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+
+.score-value {
+  font-size: 48px;
+  font-weight: bold;
+  color: var(--seal-red);
+  line-height: 1;
+}
+
+.score-max {
+  font-size: 24px;
+  color: var(--ink-gray);
+}
+
+.percentile {
+  font-size: 13px;
+  color: var(--ink-gray);
+  font-style: italic;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.stat {
+  background: white;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: var(--spacing-md);
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink-gray);
+  margin-bottom: var(--spacing-xs);
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--ink-black);
+}
+
+/* Philosophy Section */
+.philosophy-section {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: var(--parchment-dark);
+  border-left: 4px solid var(--seal-gold);
+}
+
+.philosophy-text {
+  font-size: 13px;
+  color: var(--ink-black);
+  line-height: 1.8;
+}
+
+.philosophy-text strong {
+  color: var(--seal-red);
+}
+
+/* Call to Action */
+.cta-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.capital-btn {
+  width: 100%;
+  padding: var(--spacing-md);
+  background: var(--seal-red);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(139, 46, 46, 0.3);
+}
+
+.capital-btn:hover {
+  background: #6b2020;
+  box-shadow: 0 4px 8px rgba(139, 46, 46, 0.4);
+  transform: translateY(-1px);
+}
+
+.capital-btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 20px;
+}
+
+.cta-subtext {
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-gray);
+  margin-top: var(--spacing-sm);
+  font-style: italic;
+}
+
+/* Footer */
+.footer {
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.footer-link {
+  font-size: 11px;
+  color: var(--seal-red);
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--ink-black);
+  text-decoration: underline;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.status-message p {
+  animation: pulse 2s ease-in-out infinite;
+}

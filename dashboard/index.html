@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N8.KED - The Capital</title>
+  <meta name="description" content="The living commonwealth. Transparent governance. Verifiable reputation. No lies. No hype. No backdoors.">
+  <link rel="stylesheet" href="capital.css">
+</head>
+<body>
+  <!-- Header - The Constitutional Declaration -->
+  <header class="capital-header">
+    <div class="header-container">
+      <div class="header-identity">
+        <h1 class="capital-title">N8.KED</h1>
+        <p class="capital-tagline">THE NAKED AUTHORITY</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill">
+          <span class="stat-label">CITIZENS</span>
+          <span class="stat-value" id="totalCitizens">0</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-label">SENTINELS</span>
+          <span class="stat-value" id="totalSentinels">100</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-label">HEALTH</span>
+          <span class="stat-value" id="systemHealth">98%</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-declaration">
+      <p class="declaration-text">
+        <strong>NO LIES. NO HYPE. NO BACKDOORS.</strong> 
+        This commonwealth is governed by transparent law. Every transaction is visible. 
+        Every rule is auditable. Power is naked for all to see.
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Grid - The Living City -->
+  <main class="capital-grid">
+    
+    <!-- Section 1: Herald Welcome Log (Live Feed) -->
+    <section class="grid-section herald-section">
+      <div class="section-header">
+        <h2 class="section-title">HERALD WELCOME LOG</h2>
+        <div class="live-indicator">
+          <span class="live-dot"></span>
+          <span class="live-text">LIVE</span>
+        </div>
+      </div>
+      <div class="herald-feed" id="heraldFeed">
+        <div class="herald-message">
+          <span class="herald-time">00:00:00</span>
+          <span class="herald-text">The Capital awaits the first citizen...</span>
+        </div>
+      </div>
+      <div class="section-footer">
+        <p class="footer-note">The Herald recites law, not opinion. All arrivals are recorded.</p>
+      </div>
+    </section>
+
+    <!-- Section 2: Reputation Leaderboard -->
+    <section class="grid-section leaderboard-section">
+      <div class="section-header">
+        <h2 class="section-title">REPUTATION LEADERBOARD</h2>
+        <div class="leaderboard-filter">
+          <button class="filter-btn active" data-filter="all">ALL</button>
+          <button class="filter-btn" data-filter="citizens">CITIZENS</button>
+          <button class="filter-btn" data-filter="sentinels">SENTINELS</button>
+        </div>
+      </div>
+      <div class="leaderboard-list" id="leaderboardList">
+        <!-- Will be populated by JS -->
+        <div class="leaderboard-loading">Loading sovereign rankings...</div>
+      </div>
+    </section>
+
+    <!-- Section 3: AI Observer Snapshot -->
+    <section class="grid-section observer-section">
+      <div class="section-header">
+        <h2 class="section-title">AI OBSERVER SNAPSHOT</h2>
+        <span class="observer-timestamp" id="observerTimestamp">Last updated: --:--:--</span>
+      </div>
+      <div class="observer-grid">
+        <!-- Economy Health -->
+        <div class="observer-card">
+          <div class="card-label">ECONOMIC HEALTH</div>
+          <div class="card-metric">
+            <span class="metric-value" id="giniCoefficient">0.00</span>
+            <span class="metric-unit">GINI</span>
+          </div>
+          <div class="card-status" id="economyStatus">Healthy Distribution</div>
+        </div>
+
+        <!-- Transaction Velocity -->
+        <div class="observer-card">
+          <div class="card-label">TRANSACTION VELOCITY</div>
+          <div class="card-metric">
+            <span class="metric-value" id="txVelocity">0</span>
+            <span class="metric-unit">TX/HR</span>
+          </div>
+          <div class="card-status" id="velocityStatus">Baseline Activity</div>
+        </div>
+
+        <!-- Governance Health -->
+        <div class="observer-card">
+          <div class="card-label">GOVERNANCE HEALTH</div>
+          <div class="card-metric">
+            <span class="metric-value" id="govHealth">0%</span>
+            <span class="metric-unit">QUORUM</span>
+          </div>
+          <div class="card-status" id="govStatus">No Active Proposals</div>
+        </div>
+
+        <!-- Emergent Patterns -->
+        <div class="observer-card">
+          <div class="card-label">EMERGENT PATTERNS</div>
+          <div class="card-metric">
+            <span class="metric-value" id="patternCount">0</span>
+            <span class="metric-unit">ALERTS</span>
+          </div>
+          <div class="card-status" id="patternStatus">No Anomalies Detected</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Commonwealth Pulse (Sentinel Activity) -->
+    <section class="grid-section pulse-section">
+      <div class="section-header">
+        <h2 class="section-title">COMMONWEALTH PULSE</h2>
+        <div class="pulse-legend">
+          <span class="legend-item">
+            <span class="legend-dot sentinel-dot"></span>
+            <span class="legend-text">Sentinel Activity</span>
+          </span>
+        </div>
+      </div>
+      <div class="pulse-visualization">
+        <canvas id="pulseCanvas" width="800" height="200"></canvas>
+      </div>
+      <div class="pulse-stats">
+        <div class="pulse-stat">
+          <span class="pulse-label">Market Makers</span>
+          <span class="pulse-value" id="marketMakers">20</span>
+        </div>
+        <div class="pulse-stat">
+          <span class="pulse-label">Governance Delegates</span>
+          <span class="pulse-value" id="govDelegates">15</span>
+        </div>
+        <div class="pulse-stat">
+          <span class="pulse-label">Reputation Exemplars</span>
+          <span class="pulse-value" id="repExemplars">25</span>
+        </div>
+        <div class="pulse-stat">
+          <span class="pulse-label">Autonomous Testers</span>
+          <span class="pulse-value" id="autoTesters">20</span>
+        </div>
+        <div class="pulse-stat">
+          <span class="pulse-label">Social Guides</span>
+          <span class="pulse-value" id="socialGuides">20</span>
+        </div>
+      </div>
+      <div class="section-footer">
+        <p class="footer-note">
+          <strong>Glass House Integrity:</strong> Sentinels are automated entities maintaining commonwealth health. 
+          They are not citizens. They are the immune system.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 5: Constitutional Links -->
+    <section class="grid-section links-section">
+      <div class="section-header">
+        <h2 class="section-title">CONSTITUTIONAL RESOURCES</h2>
+      </div>
+      <div class="links-grid">
+        <a href="#" class="resource-link" id="registerLink">
+          <span class="link-icon">🔑</span>
+          <span class="link-title">Register Sovereign Key</span>
+          <span class="link-desc">Claim your identity in the commonwealth</span>
+        </a>
+        <a href="#" class="resource-link" id="sourceLink">
+          <span class="link-icon">📜</span>
+          <span class="link-title">View Source Code</span>
+          <span class="link-desc">See every line. Audit every rule.</span>
+        </a>
+        <a href="#" class="resource-link" id="schemaLink">
+          <span class="link-icon">🏛️</span>
+          <span class="link-title">Read Sovereignty Schema</span>
+          <span class="link-desc">Understand the constitutional architecture</span>
+        </a>
+        <a href="#" class="resource-link" id="extensionLink">
+          <span class="link-icon">🎯</span>
+          <span class="link-title">Install Browser Extension</span>
+          <span class="link-desc">Carry your sovereignty with you</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer - The Citadel's Foundation -->
+  <footer class="capital-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3 class="footer-heading">THE NAKED AUTHORITY</h3>
+        <p class="footer-text">
+          An authority that has nothing to hide. Power is naked for all to see and audit. 
+          This is the Glass House principle made manifest.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h3 class="footer-heading">FOUNDATIONAL PRINCIPLES</h3>
+        <ul class="footer-list">
+          <li>Sovereign Identity: Cryptographic keypairs, not passwords</li>
+          <li>Portable Reputation: Achievements with verification</li>
+          <li>Claim Portfolio: Signed, provable facts</li>
+          <li>Isomorphic Integrity: Triple-helix topology</li>
+          <li>AI Autonomy: Structured state for observation</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3 class="footer-heading">SYSTEM STATUS</h3>
+        <div class="footer-status">
+          <div class="status-item">
+            <span class="status-label">Database:</span>
+            <span class="status-value" id="dbStatus">ONLINE</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Herald:</span>
+            <span class="status-value" id="heraldStatus">OPERATIONAL</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">AI Observer:</span>
+            <span class="status-value" id="observerStatus">MONITORING</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 N8.KED Commonwealth. All code visible. All rules auditable. All power transparent.</p>
+    </div>
+  </footer>
+
+  <script src="capital.js"></script>
+</body>
+</html>

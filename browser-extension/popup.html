@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N8.KED - The Naked Authority</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1 class="title">N8.KED</h1>
+      <p class="subtitle">The Naked Authority</p>
+    </header>
+
+    <!-- Status Section -->
+    <section class="status-section" id="statusSection">
+      <div class="status-message" id="statusMessage">
+        <p>Connecting to commonwealth...</p>
+      </div>
+    </section>
+
+    <!-- Identity Section -->
+    <section class="identity-section" id="identitySection" style="display: none;">
+      <div class="identity-card">
+        <div class="label">Sovereign Key</div>
+        <div class="sovereign-key" id="sovereignKey">
+          <span class="key-text" id="keyText">Not registered</span>
+          <button class="copy-btn" id="copyBtn" title="Copy full key">📋</button>
+        </div>
+      </div>
+
+      <div class="reputation-card">
+        <div class="label">Reputation Score</div>
+        <div class="reputation-score">
+          <span class="score-value" id="scoreValue">0</span>
+          <span class="score-max">/1000</span>
+        </div>
+        <div class="percentile" id="percentile">0th percentile</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-label">Balance</div>
+          <div class="stat-value" id="balance">0 FRAG</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Claims</div>
+          <div class="stat-value" id="claims">0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Banner Philosophy -->
+    <section class="philosophy-section">
+      <p class="philosophy-text">
+        <strong>No lies. No hype. No backdoors.</strong><br>
+        Your identity is your own. Your reputation is verifiable.
+      </p>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+      <button class="capital-btn" id="capitalBtn">
+        <span class="btn-text">Visit the Capital</span>
+        <span class="btn-icon">→</span>
+      </button>
+      <p class="cta-subtext">See the code. Join the commonwealth.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <a href="#" id="registerLink" class="footer-link">Register Sovereign Key</a>
+      <a href="https://github.com/yourusername/n8.ked" target="_blank" class="footer-link">View Source</a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
