@@ -12,9 +12,21 @@
  * - /status - System health and metrics
  * - /reputation [@user] - View reputation and achievements
  * - /dust [action] - Dust economy operations
+ * - /link-wallet [chain] [address] [signature] - Multi-wallet federation
+ * - /wallet-verify - Get verification message for wallet signing
+ * - /my-wallets - View linked wallets and cross-chain dust
+ * - /unlink-wallet [chain] [address] - Remove wallet from federation
+ * - /federation-stats - Global wallet federation statistics
  */
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const {
+  linkWalletCommand,
+  walletVerifyCommand,
+  myWalletsCommand,
+  unlinkWalletCommand,
+  federationStatsCommand
+} = require('./wallet_commands');
 
 class SlashCommandSystem {
   constructor(client, db, herald, dustEconomy, securityValidator) {
@@ -32,6 +44,13 @@ class SlashCommandSystem {
    */
   buildCommands() {
     return [
+      // Wallet Federation Commands
+      linkWalletCommand.data,
+      walletVerifyCommand.data,
+      myWalletsCommand.data,
+      unlinkWalletCommand.data,
+      federationStatsCommand.data,
+      
       // /explore [location]
       new SlashCommandBuilder()
         .setName('explore')
@@ -221,6 +240,21 @@ class SlashCommandSystem {
           break;
         case 'dust':
           await this.handleDust(interaction, validation);
+          break;
+        case 'link-wallet':
+          await linkWalletCommand.execute(interaction);
+          break;
+        case 'wallet-verify':
+          await walletVerifyCommand.execute(interaction);
+          break;
+        case 'my-wallets':
+          await myWalletsCommand.execute(interaction);
+          break;
+        case 'unlink-wallet':
+          await unlinkWalletCommand.execute(interaction);
+          break;
+        case 'federation-stats':
+          await federationStatsCommand.execute(interaction);
           break;
         default:
           await interaction.editReply('❌ Unknown command');
