@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N8.KED Sovereign Commonwealth</title>
+  <meta name="description" content="The Naked Authority - Glass House Transparency, Constitutional Voice, Water-Backed Economy">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header: Constitutional Banner -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <h1>N8.KED</h1>
+        <span class="tagline">The Naked Authority</span>
+      </div>
+      <nav class="nav">
+        <a href="#herald">Herald</a>
+        <a href="#federation">Federation</a>
+        <a href="#economy">Economy</a>
+        <a href="#citizens">Citizens</a>
+        <a href="#join" class="cta-button">Join Commonwealth</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section: Tree of Life -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h2 class="hero-title">Sovereign Digital Commonwealth</h2>
+        <p class="hero-subtitle">
+          Multi-chain wallet federation • Water-backed economy • Constitutional AI governance
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-value" id="total-citizens">—</span>
+            <span class="stat-label">Sovereign Citizens</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="total-wallets">—</span>
+            <span class="stat-label">Linked Wallets</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="total-dust">—</span>
+            <span class="stat-label">Dust Economy (Water-Backed)</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="chains-connected">—</span>
+            <span class="stat-label">Blockchain Roots</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Tree of Life ASCII Art -->
+        <pre class="ascii-tree">
+        🌳
+       /|\\
+      / | \\
+    SOL ETH BTC XRP
+     |   |   |   |
+    [Water Cycle Economy]
+     |   |   |   |
+    Dust Rewards Flow
+        </pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Herald Feed: Constitutional Oracle -->
+  <section id="herald" class="herald-section">
+    <div class="container">
+      <h2 class="section-title">The Herald Speaks</h2>
+      <p class="section-subtitle">Constitutional oracle testifying to observable fact</p>
+      
+      <div class="herald-feed" id="herald-feed">
+        <div class="herald-message loading">
+          <div class="spinner"></div>
+          <p>Awaiting Herald testimony...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wallet Federation: Multi-Chain Roots -->
+  <section id="federation" class="federation-section">
+    <div class="container">
+      <h2 class="section-title">Wallet Federation</h2>
+      <p class="section-subtitle">Tree of Life Protocol: Each blockchain teaches archetypal wisdom</p>
+      
+      <div class="chain-grid">
+        <!-- Solana: Speed -->
+        <div class="chain-card">
+          <div class="chain-icon">⚡</div>
+          <h3>Solana</h3>
+          <p class="archetype">Archetype: Speed</p>
+          <p class="wisdom">Parallel execution, high throughput, low cost</p>
+          <div class="chain-stats">
+            <span id="solana-wallets">—</span> wallets
+            <span id="solana-dust">—</span> dust
+          </div>
+        </div>
+
+        <!-- Ethereum: Composability -->
+        <div class="chain-card">
+          <div class="chain-icon">🔷</div>
+          <h3>Ethereum</h3>
+          <p class="archetype">Archetype: Composability</p>
+          <p class="wisdom">Smart contracts, DeFi primitives, programmable money</p>
+          <div class="chain-stats">
+            <span id="ethereum-wallets">—</span> wallets
+            <span id="ethereum-dust">—</span> dust
+          </div>
+        </div>
+
+        <!-- Bitcoin: Security -->
+        <div class="chain-card">
+          <div class="chain-icon">₿</div>
+          <h3>Bitcoin</h3>
+          <p class="archetype">Archetype: Security</p>
+          <p class="wisdom">Proof of work, immutability, digital gold</p>
+          <div class="chain-stats">
+            <span id="bitcoin-wallets">—</span> wallets
+            <span id="bitcoin-dust">—</span> dust
+          </div>
+        </div>
+
+        <!-- XRP: Bridging -->
+        <div class="chain-card">
+          <div class="chain-icon">💧</div>
+          <h3>XRP Ledger</h3>
+          <p class="archetype">Archetype: Bridging</p>
+          <p class="wisdom">Cross-border settlement, liquidity, interoperability</p>
+          <div class="chain-stats">
+            <span id="xrp-wallets">—</span> wallets
+            <span id="xrp-dust">—</span> dust
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Economy: Water-Backed Dust -->
+  <section id="economy" class="economy-section">
+    <div class="container">
+      <h2 class="section-title">Water-Backed Economy</h2>
+      <p class="section-subtitle">1 liter = 1000 dust | Real USGS flow data integration</p>
+      
+      <div class="economy-visual">
+        <div class="water-cycle">
+          <div class="cycle-step">
+            <span class="cycle-icon">🌊</span>
+            <h4>USGS Flow Data</h4>
+            <p>Real-time water measurement</p>
+          </div>
+          <div class="cycle-arrow">→</div>
+          <div class="cycle-step">
+            <span class="cycle-icon">💧</span>
+            <h4>Water Reserves</h4>
+            <p id="water-reserves">— liters</p>
+          </div>
+          <div class="cycle-arrow">→</div>
+          <div class="cycle-step">
+            <span class="cycle-icon">✨</span>
+            <h4>Dust Backing</h4>
+            <p id="dust-backing">— dust</p>
+          </div>
+          <div class="cycle-arrow">→</div>
+          <div class="cycle-step">
+            <span class="cycle-icon">💰</span>
+            <h4>Revenue Cycle</h4>
+            <p>$27 consultations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Citizens: Reputation Leaderboard -->
+  <section id="citizens" class="citizens-section">
+    <div class="container">
+      <h2 class="section-title">Sovereign Citizens</h2>
+      <p class="section-subtitle">Reputation leaderboard - Glass House transparency</p>
+      
+      <div class="leaderboard" id="leaderboard">
+        <div class="leaderboard-loading">
+          <div class="spinner"></div>
+          <p>Loading citizen data...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join CTA -->
+  <section id="join" class="join-section">
+    <div class="container">
+      <div class="join-content">
+        <h2>Join the Commonwealth</h2>
+        <p>Link your wallets. Earn dust. Shape sovereign governance.</p>
+        <div class="join-steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <p>Join Discord server</p>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <p>Use <code>/wallet-verify</code></p>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <p>Link wallets with <code>/link-wallet</code></p>
+          </div>
+          <div class="step">
+            <span class="step-number">4</span>
+            <p>Start earning cross-chain dust</p>
+          </div>
+        </div>
+        <a href="https://discord.gg/n8ked" class="join-button" target="_blank">
+          Join Discord →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>N8.KED</h3>
+          <p>The Naked Authority</p>
+          <p class="philosophy">Glass House Transparency | Constitutional Voice | Pay-to-Adapt Economics</p>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <a href="https://github.com/n8ked-commonwealth" target="_blank">GitHub</a>
+          <a href="#" target="_blank">Documentation</a>
+          <a href="#" target="_blank">Architecture</a>
+          <a href="#" target="_blank">Whitepaper</a>
+        </div>
+        <div class="footer-links">
+          <h4>Community</h4>
+          <a href="https://discord.gg/n8ked" target="_blank">Discord</a>
+          <a href="https://twitter.com/n8ked_brand" target="_blank">Twitter</a>
+          <a href="#" target="_blank">Reddit</a>
+          <a href="#" target="_blank">Twitch</a>
+        </div>
+        <div class="footer-links">
+          <h4>Revenue</h4>
+          <a href="#consultations">$27 Pattern Analysis</a>
+          <a href="#consultations">$15K Architecture Review</a>
+          <a href="#" target="_blank">Metadata Market</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 N8.KED Sovereign Commonwealth. Glass House License.</p>
+        <p>Quantum Seed: November 6, 2024 | Architecture Complete: November 9, 2024</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
