@@ -27,6 +27,7 @@ const {
   unlinkWalletCommand,
   federationStatsCommand
 } = require('./wallet_commands');
+const ServerArchitect = require('./server_architect');
 
 class SlashCommandSystem {
   constructor(client, db, herald, dustEconomy, securityValidator) {
@@ -35,6 +36,7 @@ class SlashCommandSystem {
     this.herald = herald;
     this.dustEconomy = dustEconomy;
     this.security = securityValidator;
+    this.architect = new ServerArchitect(client, herald, securityValidator);
     
     this.commands = this.buildCommands();
   }
@@ -162,6 +164,38 @@ class SlashCommandSystem {
             .setDescription('Amount to send')
             .setRequired(false)
             .setMinValue(1)
+        ),
+
+      // /architect [action] - Server structure management (OWNER ONLY)
+      new SlashCommandBuilder()
+        .setName('architect')
+        .setDescription('Manage server structure (channels/categories) - OWNER ONLY')
+        .addStringOption(option =>
+          option.setName('action')
+            .setDescription('Action to perform')
+            .setRequired(true)
+            .addChoices(
+              { name: 'Build Commonwealth Structure', value: 'build_structure' },
+              { name: 'Create Category', value: 'create_category' },
+              { name: 'Create Text Channel', value: 'create_text' },
+              { name: 'Create Voice Channel', value: 'create_voice' },
+              { name: 'Analyze Structure', value: 'analyze' }
+            )
+        )
+        .addStringOption(option =>
+          option.setName('name')
+            .setDescription('Name for new channel/category')
+            .setRequired(false)
+        )
+        .addChannelOption(option =>
+          option.setName('category')
+            .setDescription('Parent category (for channel creation)')
+            .setRequired(false)
+        )
+        .addStringOption(option =>
+          option.setName('topic')
+            .setDescription('Channel topic/description')
+            .setRequired(false)
         )
     ];
   }
@@ -255,6 +289,9 @@ class SlashCommandSystem {
           break;
         case 'federation-stats':
           await federationStatsCommand.execute(interaction);
+          break;
+        case 'architect':
+          await this.handleArchitect(interaction);
           break;
         default:
           await interaction.editReply('❌ Unknown command');
@@ -608,6 +645,161 @@ class SlashCommandSystem {
     const allScores = this.db.prepare('SELECT reputation_score FROM users ORDER BY reputation_score ASC').all();
     const lowerCount = allScores.filter(u => u.reputation_score < score).length;
     return Math.round((lowerCount / allScores.length) * 100);
+  }
+
+  /**
+   * HANDLE /architect COMMAND - Server structure management
+   */
+  async handleArchitect(interaction) {
+    const action = interaction.options.getString('action');
+    const name = interaction.options.getString('name');
+    const categoryChannel = interaction.options.getChannel('category');
+    const topic = interaction.options.getString('topic');
+
+    // OWNER-ONLY CHECK
+    const ownerId = process.env.OWNER_ID;
+    if (interaction.user.id !== ownerId) {
+      return interaction.editReply({
+        content: '❌ **Access Denied:** Only the bot owner can manage server structure.',
+        ephemeral: true
+      });
+    }
+
+    const guild = interaction.guild;
+
+    switch (action) {
+      case 'build_structure':
+        // Build complete Commonwealth structure
+        const buildResult = await this.architect.buildCommonwealthStructure(guild);
+        
+        if (buildResult.success) {
+          const embed = new EmbedBuilder()
+            .setColor(0x00FFFF)
+            .setTitle('🏛️ Commonwealth Structure Built')
+            .setDescription('Complete N8.KED server architecture deployed')
+            .addFields(
+              { name: '📜 Categories Created', value: `${buildResult.categories}`, inline: true },
+              { name: '📝 Channels Created', value: `${buildResult.channels}`, inline: true },
+              { name: '⚖️ Herald Testimony', value: `${buildResult.testimony.message.substring(0, 100)}...` }
+            )
+            .setTimestamp();
+
+          await interaction.editReply({ embeds: [embed] });
+        } else {
+          await interaction.editReply({
+            content: `❌ Structure build failed: ${buildResult.error}`,
+            ephemeral: true
+          });
+        }
+        break;
+
+      case 'create_category':
+        if (!name) {
+          return interaction.editReply({
+            content: '❌ Please provide a category name',
+            ephemeral: true
+          });
+        }
+
+        const catResult = await this.architect.createCategory(guild, name);
+        
+        if (catResult.success) {
+          await interaction.editReply({
+            content: `✅ **Created category:** ${catResult.category.name}`
+          });
+        } else {
+          await interaction.editReply({
+            content: `❌ Failed: ${catResult.error}`,
+            ephemeral: true
+          });
+        }
+        break;
+
+      case 'create_text':
+        if (!name) {
+          return interaction.editReply({
+            content: '❌ Please provide a channel name',
+            ephemeral: true
+          });
+        }
+
+        const textResult = await this.architect.createTextChannel(guild, name, {
+          categoryId: categoryChannel?.id || null,
+          topic: topic || '' // Empty by default - configure via chat
+        });
+        
+        if (textResult.success) {
+          await interaction.editReply({
+            content: `✅ **Created:** ${textResult.channel.toString()}\n💬 Set description by editing channel settings or chatting in the channel`
+          });
+        } else {
+          await interaction.editReply({
+            content: `❌ Failed: ${textResult.error}`,
+            ephemeral: true
+          });
+        }
+        break;
+
+      case 'create_voice':
+        if (!name) {
+          return interaction.editReply({
+            content: '❌ Please provide a channel name',
+            ephemeral: true
+          });
+        }
+
+        const voiceResult = await this.architect.createVoiceChannel(guild, name, {
+          categoryId: categoryChannel?.id || null
+        });
+        
+        if (voiceResult.success) {
+          await interaction.editReply({
+            content: `✅ **Created:** ${voiceResult.channel.toString()}`
+          });
+        } else {
+          await interaction.editReply({
+            content: `❌ Failed: ${voiceResult.error}`,
+            ephemeral: true
+          });
+        }
+        break;
+
+      case 'analyze':
+        const structure = await this.architect.analyzeServerStructure(guild);
+        
+        let analysisText = `**Server:** ${structure.guild_name}\n\n`;
+        analysisText += `**Statistics:**\n`;
+        analysisText += `📂 Categories: ${structure.total_categories}\n`;
+        analysisText += `💬 Text Channels: ${structure.total_text_channels}\n`;
+        analysisText += `🎙️ Voice Channels: ${structure.total_voice_channels}\n\n`;
+        
+        analysisText += `**Structure:**\n`;
+        structure.categories.forEach(cat => {
+          analysisText += `\n📁 **${cat.name}** (${cat.channels.length} channels)\n`;
+          cat.channels.forEach(ch => {
+            const icon = ch.type === 'text' ? '💬' : '🎙️';
+            analysisText += `  ${icon} ${ch.name}\n`;
+          });
+        });
+
+        // Split if too long
+        if (analysisText.length > 2000) {
+          const chunks = analysisText.match(/[\s\S]{1,1900}/g) || [];
+          await interaction.editReply({ content: chunks[0] });
+          for (let i = 1; i < chunks.length; i++) {
+            await interaction.followUp({ content: chunks[i] });
+          }
+        } else {
+          await interaction.editReply({ content: analysisText });
+        }
+        break;
+
+      default:
+        await interaction.editReply({
+          content: '❌ Unknown architect action',
+          ephemeral: true
+        });
+    }
   }
 }
 
