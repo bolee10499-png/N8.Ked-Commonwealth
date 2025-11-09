@@ -1,0 +1,366 @@
+{
+  "timestamp": "2025-11-09T12:15:36.741Z",
+  "baseline": {
+    "database": {
+      "avgTime": 0.009965000000000258,
+      "minTime": 0.008000000000009777,
+      "maxTime": 0.06909999999999172,
+      "iterations": 100
+    },
+    "herald": {
+      "avgTime": 0.28706599999999866,
+      "minTime": 0.061800000000005184,
+      "maxTime": 2.5054999999999836,
+      "iterations": 50
+    },
+    "security": {
+      "avgTime": 0.00515799999999814,
+      "minTime": 0.0010999999999796728,
+      "maxTime": 0.2605000000000075,
+      "iterations": 100
+    },
+    "dust": {
+      "avgTime": 0.0013550000000003592,
+      "minTime": 0.0004999999999881766,
+      "maxTime": 0.03870000000000573,
+      "iterations": 100
+    },
+    "ai": {
+      "avgTime": 1.130028000000002,
+      "minTime": 0.16560000000001196,
+      "maxTime": 18.78479999999999,
+      "iterations": 25
+    }
+  },
+  "breakingPoints": [],
+  "performanceProfiles": [
+    {
+      "component": "database",
+      "load": 1,
+      "avgTime": 0.010934999999999775,
+      "minTime": 0.008099999999984675,
+      "maxTime": 0.11189999999999145,
+      "iterations": 100
+    },
+    {
+      "component": "database",
+      "load": 2,
+      "avgTime": 0.010483999999999724,
+      "minTime": 0.007499999999993179,
+      "maxTime": 0.054400000000015325,
+      "iterations": 200
+    },
+    {
+      "component": "database",
+      "load": 5,
+      "avgTime": 0.015756799999999658,
+      "minTime": 0.005400000000008731,
+      "maxTime": 1.3717000000000041,
+      "iterations": 500
+    },
+    {
+      "component": "database",
+      "load": 10,
+      "avgTime": 0.012824899999999615,
+      "minTime": 0.0049999999999954525,
+      "maxTime": 0.5512999999999693,
+      "iterations": 1000
+    },
+    {
+      "component": "database",
+      "load": 25,
+      "avgTime": 0.014717720000000099,
+      "minTime": 0.0050999999999703505,
+      "maxTime": 2.5200000000000387,
+      "iterations": 2500
+    },
+    {
+      "component": "database",
+      "load": 50,
+      "avgTime": 0.00940021999999983,
+      "minTime": 0.004899999999963711,
+      "maxTime": 1.0908999999999764,
+      "iterations": 5000
+    },
+    {
+      "component": "database",
+      "load": 75,
+      "avgTime": 0.01104516000000026,
+      "minTime": 0.004899999999963711,
+      "maxTime": 4.9298,
+      "iterations": 7500
+    },
+    {
+      "component": "database",
+      "load": 100,
+      "avgTime": 0.009753740000000755,
+      "minTime": 0.004699999999957072,
+      "maxTime": 4.29970000000003,
+      "iterations": 10000
+    },
+    {
+      "component": "herald",
+      "load": 1,
+      "avgTime": 0.09396599999999808,
+      "minTime": 0.03780000000006112,
+      "maxTime": 0.2839000000000169,
+      "iterations": 50
+    },
+    {
+      "component": "herald",
+      "load": 2,
+      "avgTime": 0.06853899999999839,
+      "minTime": 0.044899999999984175,
+      "maxTime": 0.6975999999999658,
+      "iterations": 100
+    },
+    {
+      "component": "herald",
+      "load": 5,
+      "avgTime": 0.08651799999999957,
+      "minTime": 0.03370000000006712,
+      "maxTime": 0.9298999999999751,
+      "iterations": 250
+    },
+    {
+      "component": "herald",
+      "load": 10,
+      "avgTime": 0.06640980000000081,
+      "minTime": 0.028099999999994907,
+      "maxTime": 1.294399999999996,
+      "iterations": 500
+    },
+    {
+      "component": "herald",
+      "load": 25,
+      "avgTime": 0.05989840000000022,
+      "minTime": 0.02400000000000091,
+      "maxTime": 1.9342999999998938,
+      "iterations": 1250
+    },
+    {
+      "component": "herald",
+      "load": 50,
+      "avgTime": 0.06887904000000057,
+      "minTime": 0.01370000000008531,
+      "maxTime": 8.243400000000065,
+      "iterations": 2500
+    },
+    {
+      "component": "herald",
+      "load": 75,
+      "avgTime": 0.045673093333331596,
+      "minTime": 0.011599999999930333,
+      "maxTime": 5.751800000000003,
+      "iterations": 3750
+    },
+    {
+      "component": "herald",
+      "load": 100,
+      "avgTime": 0.0729755599999984,
+      "minTime": 0.011599999999816646,
+      "maxTime": 12.737899999999854,
+      "iterations": 5000
+    },
+    {
+      "component": "security",
+      "load": 1,
+      "avgTime": 0.0013580000000047222,
+      "minTime": 0.0008000000000265572,
+      "maxTime": 0.030799999999999272,
+      "iterations": 100
+    },
+    {
+      "component": "security",
+      "load": 2,
+      "avgTime": 0.0010754999999880966,
+      "minTime": 0.0007999999997991836,
+      "maxTime": 0.007400000000188811,
+      "iterations": 200
+    },
+    {
+      "component": "security",
+      "load": 5,
+      "avgTime": 0.0009812000000024455,
+      "minTime": 0.0008000000000265572,
+      "maxTime": 0.0036999999999807187,
+      "iterations": 500
+    },
+    {
+      "component": "security",
+      "load": 10,
+      "avgTime": 0.0010903999999979988,
+      "minTime": 0.0007999999997991836,
+      "maxTime": 0.036599999999907595,
+      "iterations": 1000
+    },
+    {
+      "component": "security",
+      "load": 25,
+      "avgTime": 0.0014886000000029526,
+      "minTime": 0.0006999999998242856,
+      "maxTime": 0.3482000000001335,
+      "iterations": 2500
+    },
+    {
+      "component": "security",
+      "load": 50,
+      "avgTime": 0.0013519800000013219,
+      "minTime": 0.0006999999998242856,
+      "maxTime": 0.5881000000001677,
+      "iterations": 5000
+    },
+    {
+      "component": "security",
+      "load": 75,
+      "avgTime": 0.0011769466666675726,
+      "minTime": 0.00029999999992469384,
+      "maxTime": 0.11820000000011532,
+      "iterations": 7500
+    },
+    {
+      "component": "security",
+      "load": 100,
+      "avgTime": 0.0008334000000010519,
+      "minTime": 0.0003999999998995918,
+      "maxTime": 0.8902000000000498,
+      "iterations": 10000
+    },
+    {
+      "component": "dust_economy",
+      "load": 1,
+      "avgTime": 0.00029000000000678483,
+      "minTime": 0.00009999999997489795,
+      "maxTime": 0.007399999999961437,
+      "iterations": 100
+    },
+    {
+      "component": "dust_economy",
+      "load": 2,
+      "avgTime": 0.00025350000001253645,
+      "minTime": 0.0001999999999497959,
+      "maxTime": 0.0036999999999807187,
+      "iterations": 200
+    },
+    {
+      "component": "dust_economy",
+      "load": 5,
+      "avgTime": 0.00025159999999641513,
+      "minTime": 0.00009999999997489795,
+      "maxTime": 0.0016000000000531145,
+      "iterations": 500
+    },
+    {
+      "component": "dust_economy",
+      "load": 10,
+      "avgTime": 0.0002413999999985208,
+      "minTime": 0.00009999999997489795,
+      "maxTime": 0.0014000000001033186,
+      "iterations": 1000
+    },
+    {
+      "component": "dust_economy",
+      "load": 25,
+      "avgTime": 0.00032708000000166066,
+      "minTime": 0.00009999999997489795,
+      "maxTime": 0.0908999999999196,
+      "iterations": 2500
+    },
+    {
+      "component": "dust_economy",
+      "load": 50,
+      "avgTime": 0.0002074800000002142,
+      "minTime": 0.00009999999997489795,
+      "maxTime": 0.010199999999940701,
+      "iterations": 5000
+    },
+    {
+      "component": "dust_economy",
+      "load": 75,
+      "avgTime": 0.0005396000000002763,
+      "minTime": 0.00009999999997489795,
+      "maxTime": 2.3004000000000815,
+      "iterations": 7500
+    },
+    {
+      "component": "dust_economy",
+      "load": 100,
+      "avgTime": 0.00021570000000083382,
+      "minTime": 0.00009999999997489795,
+      "maxTime": 0.006700000000137152,
+      "iterations": 10000
+    },
+    {
+      "component": "ai_observer",
+      "load": 1,
+      "avgTime": 0.5708320000000094,
+      "minTime": 0.22550000000001091,
+      "maxTime": 5.050700000000006,
+      "iterations": 25
+    },
+    {
+      "component": "ai_observer",
+      "load": 2,
+      "avgTime": 0.3916420000000153,
+      "minTime": 0.22319999999990614,
+      "maxTime": 1.8622000000000298,
+      "iterations": 50
+    },
+    {
+      "component": "ai_observer",
+      "load": 5,
+      "avgTime": 0.26724560000000563,
+      "minTime": 0.14949999999998909,
+      "maxTime": 1.1686999999999443,
+      "iterations": 125
+    },
+    {
+      "component": "ai_observer",
+      "load": 10,
+      "avgTime": 0.32470320000000086,
+      "minTime": 0.1492000000000644,
+      "maxTime": 3.350199999999859,
+      "iterations": 250
+    },
+    {
+      "component": "ai_observer",
+      "load": 25,
+      "avgTime": 0.2633920000000009,
+      "minTime": 0.1370999999999185,
+      "maxTime": 2.49570000000017,
+      "iterations": 625
+    },
+    {
+      "component": "ai_observer",
+      "load": 50,
+      "avgTime": 0.37978687999999383,
+      "minTime": 0.13859999999999673,
+      "maxTime": 21.296400000000176,
+      "iterations": 1250
+    },
+    {
+      "component": "ai_observer",
+      "load": 75,
+      "avgTime": 0.4778579199999964,
+      "minTime": 0.141399999999976,
+      "maxTime": 9.589100000000144,
+      "iterations": 1875
+    },
+    {
+      "component": "ai_observer",
+      "load": 100,
+      "avgTime": 0.5017363600000015,
+      "minTime": 0.13220000000001164,
+      "maxTime": 134.9634000000001,
+      "iterations": 2500
+    }
+  ],
+  "evolutionaryProposals": [],
+  "summary": {
+    "totalBreakingPoints": 0,
+    "componentsAffected": [],
+    "highPriorityProposals": 0,
+    "mediumPriorityProposals": 0,
+    "lowPriorityProposals": 0
+  }
+}
