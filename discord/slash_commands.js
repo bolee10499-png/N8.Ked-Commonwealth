@@ -287,6 +287,9 @@ class SlashCommandSystem {
 
   /**
    * /EXPLORE HANDLER
+   * 
+   * Connects Inner World exploration to Blender 3D visualization
+   * Phase 14: Integration complete
    */
   async handleExplore(interaction, validation) {
     const location = validation.sanitized[0];
@@ -304,17 +307,43 @@ class SlashCommandSystem {
     // Deduct dust
     this.dustEconomy.deductDust(userId, 10, 'exploration');
 
-    // Generate Blender scene (requires blender_client)
-    const BlenderClient = require('../lib/blender_client');
-    const blender = new BlenderClient();
-    
-    const sceneData = {
-      topology: { location },
-      user_id: userId,
-      timestamp: Date.now()
-    };
+    // Get Inner World exploration data
+    const { InnerWorld } = require('../lib/inner_world');
+    const innerWorld = new InnerWorld();
+    const exploration = innerWorld.explore(userId, location);
 
-    const imageBuffer = await blender.generateScene(sceneData);
+    // Convert to 3D topology for Blender
+    const topology = innerWorld.getLocationTopology(location);
+
+    if (!topology) {
+      return interaction.editReply({
+        content: `❌ Location "${location}" not found. Use /help to see available locations.`,
+        ephemeral: true
+      });
+    }
+
+    // Generate Blender visualization (if server is running)
+    let imageBuffer = null;
+    let visualizationNote = '';
+    
+    try {
+      const fetch = require('node-fetch');
+      const response = await fetch('http://localhost:8000/generate_scene', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topology }),
+        timeout: 5000 // 5 second timeout
+      });
+
+      if (response.ok) {
+        imageBuffer = await response.buffer();
+      } else {
+        visualizationNote = '\n\n⚠️ 3D visualization unavailable (Blender service offline)';
+      }
+    } catch (error) {
+      console.log('[EXPLORE] Blender service not available:', error.message);
+      visualizationNote = '\n\n⚠️ 3D visualization unavailable (Blender service offline)';
+    }
 
     // Record in database
     this.db.prepare(`
@@ -326,27 +355,39 @@ class SlashCommandSystem {
     const testimony = this.herald.observe('exploration_complete', {
       sovereign_id: userId,
       location,
+      depth: exploration.depth,
+      lore: exploration.lore,
       dust_spent: 10,
       timestamp: new Date().toISOString()
     });
 
-    // Send response
+    // Build response embed
     const embed = new EmbedBuilder()
       .setColor('#FFD700')
-      .setTitle(`🗺️ Exploration: ${location.replace('_', ' ').toUpperCase()}`)
-      .setDescription(testimony)
+      .setTitle(`🌀 ${exploration.location.replace(/_/g, ' ').toUpperCase()} - Depth ${exploration.depth}`)
+      .setDescription(exploration.lore + visualizationNote)
       .addFields(
-        { name: 'Location', value: location, inline: true },
+        { name: 'Tutorial', value: exploration.tutorial_fragment || 'None', inline: true },
         { name: 'Dust Spent', value: '10', inline: true },
-        { name: 'New Balance', value: balance - 10, inline: true }
+        { name: 'New Balance', value: (balance - 10).toString(), inline: true },
+        { name: 'Exits', value: exploration.exits.join(', ') || 'None', inline: false }
       )
-      .setImage('attachment://scene.png')
+      .setFooter({ text: 'Herald Testimony: ' + testimony })
       .setTimestamp();
 
-    await interaction.editReply({
-      embeds: [embed],
-      files: [{ attachment: imageBuffer, name: 'scene.png' }]
-    });
+    if (imageBuffer) {
+      embed.setImage('attachment://topology.png');
+    }
+
+    const replyOptions = {
+      embeds: [embed]
+    };
+
+    if (imageBuffer) {
+      replyOptions.files = [{ attachment: imageBuffer, name: 'topology.png' }];
+    }
+
+    await interaction.editReply(replyOptions);
   }
 
   /**
