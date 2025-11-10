@@ -149,6 +149,25 @@ function initializeSchema() {
         CREATE INDEX IF NOT EXISTS idx_subscriptions_tier ON subscriptions(tier);
         CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions(status);
 
+        -- Creator Royalties table (Filial Piety Protocol)
+        CREATE TABLE IF NOT EXISTS creator_royalties (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            amount REAL NOT NULL,
+            source_type TEXT NOT NULL, -- 'transfer', 'nft_sale', 'stake', 'subscription'
+            timestamp INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_creator_royalties_timestamp ON creator_royalties(timestamp);
+
+        -- Media Mentions table (Viral Tracking)
+        CREATE TABLE IF NOT EXISTS media_mentions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            platform TEXT NOT NULL, -- 'twitter', 'reddit', 'hackerNews', 'github'
+            data TEXT NOT NULL, -- JSON blob with mention details
+            timestamp INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_media_mentions_platform ON media_mentions(platform);
+        CREATE INDEX IF NOT EXISTS idx_media_mentions_timestamp ON media_mentions(timestamp);
+
         -- Royalty Streams table (🚀 THE MONEY MAKER)
         CREATE TABLE IF NOT EXISTS royalty_streams (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
