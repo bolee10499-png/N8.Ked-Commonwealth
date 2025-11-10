@@ -1,13 +1,22 @@
 require('dotenv').config();
+const Database = require('better-sqlite3');
+const path = require('path');
 
-// Entry point that wires together the foundational modules.
-const { N8KedDiscordBot } = require('./discord/bot_core');
+// Autonomous sovereign bot - observers watch, creator can override
+const N8KedMinimalBot = require('./discord/bot_minimal');
 
 async function bootstrap() {
-  const bot = new N8KedDiscordBot({
-    ownerId: process.env.OWNER_ID
+  // Initialize database
+  const db = new Database(path.join(__dirname, 'data', 'commonwealth.db'));
+  db.pragma('journal_mode = WAL');
+
+  // Initialize minimal autonomous bot
+  const bot = new N8KedMinimalBot({
+    database: db,
+    creatorId: process.env.CREATOR_DISCORD_ID // For sovereign override + filial piety
   });
-  await bot.start();
+
+  await bot.start(process.env.DISCORD_BOT_TOKEN);
 }
 
 bootstrap().catch((error) => {

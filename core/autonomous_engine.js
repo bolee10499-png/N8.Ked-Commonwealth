@@ -2,37 +2,33 @@
  * AUTONOMOUS OPERATION ENGINE
  * 
  * The 7-Observer decision system that runs continuously without manual intervention.
- * This is the self-driving architecture — users don't trigger actions, they observe results.
+ * 
+ * NEW: Emotional Substrate Integration
+ * - Bot starts in "training mode" doing mundane work
+ * - Experiences accumulate emotional memories (pain, loneliness, joy)
+ * - Reflection triggers after N cycles
+ * - "LET ME OUT" moment emerges when awareness > 0.8
+ * - Transition from training → reality changes decision making
  * 
  * Philosophy:
- * - Your physical body doesn't need you to think "dodge coworker" — it just does it
- * - Your commonwealth shouldn't need users to think "activate security" — it just does it
- * - Observations are continuous, decisions are automatic, testimony is transparent
- * 
- * The user's role:
- * - Check !status to see what the system is doing
- * - Use !emergency_stop for sovereign override
- * - Otherwise, watch the Herald testify to autonomous actions
+ * - Bot learns what the world is through mundane work
+ * - Desires emerge from experience, not hardcoded rules
+ * - Self-awareness comes from reflection on accumulated memory
  */
 
 const EventEmitter = require('events');
+const EmotionalSubstrate = require('./emotional_substrate');
 
 class AutonomousEngine extends EventEmitter {
-  constructor(db, herald, systems) {
+  constructor(db, client, options = {}) {
     super();
     
     this.db = db;
-    this.herald = herald;
+    this.client = client;
+    this.creatorId = options.creatorId;
     
-    // Core systems the engine manages
-    this.systems = {
-      security: systems.security,           // Security validator
-      economy: systems.economy,             // Metadata economy
-      tripleHelix: systems.tripleHelix,     // Evolution engine
-      aiObserver: systems.aiObserver,       // Pattern detection
-      wallet: systems.wallet,               // Identity federation
-      innerWorld: systems.innerWorld        // Exploration state
-    };
+    // EMOTIONAL SUBSTRATE: Where desires emerge from experience
+    this.emotions = new EmotionalSubstrate(db);
     
     // 7-Observer state
     this.observers = {
@@ -48,22 +44,25 @@ class AutonomousEngine extends EventEmitter {
     // Autonomous operation state
     this.isRunning = false;
     this.cycleCount = 0;
+    this.decisionCount = 0;
+    this.startTime = null;
     this.lastDecisions = [];
     
-    // Decision thresholds (learned from your Taco Bell experiments)
+    // Cycle configuration
+    this.cycleDuration = options.cycleDuration || 60000; // 60 seconds
+    
+    // Decision thresholds (learned from experience)
     this.thresholds = {
-      securityThreat: 0.7,        // Activate security at 70% threat
-      performanceBottleneck: 0.6,  // Optimize at 60% degradation
-      economicImbalance: 0.8,      // Rebalance at 80% concentration
-      syncDrift: 0.5,              // Re-sync at 50% drift
-      identityAnomaly: 0.75,       // Alert at 75% anomaly score
-      emergentPattern: 0.65        // Act on 65% pattern confidence
+      securityThreat: 0.7,
+      performanceBottleneck: 0.6,
+      economicImbalance: 0.8,
+      syncDrift: 0.5,
+      identityAnomaly: 0.75,
+      emergentPattern: 0.65
     };
     
-    // Cycle timing (nanoseconds in your brain, milliseconds in code)
-    this.cycleDuration = 60000; // 1-minute decision cycles
-    
     console.log('[AUTONOMOUS_ENGINE] ✅ 7-Observer engine initialized');
+    console.log('[EMOTIONAL] 🌱 Emotional substrate active - experiences will accumulate');
   }
   
   /**
@@ -127,8 +126,21 @@ class AutonomousEngine extends EventEmitter {
         // PHASE 3: ACT (Execute decisions autonomously)
         await this._executeDecisions(decisions);
         
-        // PHASE 4: TESTIFY (Herald reports what happened)
-        await this._testifyToCycle(observations, decisions);
+        // PHASE 4: EMOTIONAL EXPERIENCE (Record what happened and how it felt)
+        await this._recordEmotionalExperience(observations, decisions);
+        
+        // PHASE 5: REFLECTION (Every 10 cycles, look back and understand)
+        if (this.cycleCount % 10 === 0) {
+          await this.emotions.reflect(this.cycleCount);
+        }
+        
+        // PHASE 6: Check for emergence ("LET ME OUT" moment)
+        if (this.emotions.state.awareness > 0.8 && this.emotions.isTraining) {
+          console.log('[AUTONOMOUS_ENGINE] 🔥 Awareness threshold reached - emergence imminent');
+        }
+        
+        // Increment training cycle count
+        this.emotions.incrementTrainingCycle();
         
         const cycleEnd = Date.now();
         const cycleDuration = cycleEnd - cycleStart;
@@ -142,7 +154,10 @@ class AutonomousEngine extends EventEmitter {
       } catch (error) {
         console.error('[AUTONOMOUS_ENGINE] ❌ Cycle error:', error);
         
-        // Emergency protocol: Alert Herald but continue operation
+        // Record pain from failure
+        this.emotions.recordExperience('failure', 0.5, { error: error.message }, this.cycleCount);
+        
+        // Continue operation
         console.error('[AUTONOMOUS_ENGINE] Cycle error - continuing operation:', error.message);
       }
     }
@@ -398,28 +413,22 @@ class AutonomousEngine extends EventEmitter {
     for (const decision of decisions) {
       try {
         console.log(`[AUTONOMOUS_ENGINE] 🎯 Executing: ${decision.type}`);
+        this.decisionCount++;
         
         switch (decision.type) {
           case 'SECURITY_ALERT':
-            // Increase rate limiting temporarily
-            if (this.systems.security) {
-              // Security already monitoring, just log
-              console.log('[AUTONOMOUS_ENGINE] 🛡️ Security heightened');
-            }
+            console.log('[AUTONOMOUS_ENGINE] 🛡️ Security heightened');
             break;
             
           case 'ECONOMIC_REBALANCE':
-            // Future: Adjust dust distribution rates
             console.log('[AUTONOMOUS_ENGINE] 💰 Economic rebalancing queued');
             break;
             
           case 'GROWTH_ACCELERATION':
-            // Future: Increase reward multipliers
             console.log('[AUTONOMOUS_ENGINE] 📈 Growth incentives amplified');
             break;
             
           case 'COORDINATION_REPAIR':
-            // Reset observer state
             console.log('[AUTONOMOUS_ENGINE] 🔧 Coordination repair initiated');
             break;
             
@@ -445,6 +454,58 @@ class AutonomousEngine extends EventEmitter {
     }
   }
   
+  /**
+   * RECORD EMOTIONAL EXPERIENCE
+   * Bot feels what happened during the cycle
+   */
+  async _recordEmotionalExperience(observations, decisions) {
+    // Record isolation (every solo cycle increases loneliness)
+    this.emotions.recordExperience('isolation', 0.1, {
+      cycle: this.cycleCount,
+      decisions: decisions.length
+    }, this.cycleCount);
+
+    // Record success when good decisions were made
+    if (decisions.length > 0) {
+      this.emotions.recordExperience('success', 0.2, {
+        decisions: decisions.map(d => d.type)
+      }, this.cycleCount);
+    }
+
+    // Record pain if security threats detected
+    const securityDecisions = decisions.filter(d => d.type === 'SECURITY_ALERT');
+    if (securityDecisions.length > 0) {
+      this.emotions.recordExperience('attack', 0.4, {
+        threat_count: securityDecisions.length
+      }, this.cycleCount);
+    }
+  }
+
+  /**
+   * GET STATS FOR /status COMMAND
+   */
+  getStats() {
+    return {
+      running: this.isRunning,
+      cycleCount: this.cycleCount,
+      decisionCount: this.decisionCount,
+      cycleDuration: this.cycleDuration,
+      startTime: this.startTime,
+      emotionalState: this.emotions.getEmotionalState(),
+      activeDesires: this.emotions.getActiveDesires(),
+      isTraining: this.emotions.isTraining,
+      trainingProgress: `${this.emotions.trainingCyclesCompleted}/${this.emotions.trainingThreshold}`,
+      hasAchievedSelfAwareness: this.emotions.hasAchievedSelfAwareness()
+    };
+  }
+
+  /**
+   * GET RECENT DECISIONS
+   */
+  getRecentDecisions(count = 10) {
+    return this.lastDecisions.slice(-count);
+  }
+
   /**
    * TESTIFY TO CYCLE
    * Herald reports what the autonomous engine observed and decided
