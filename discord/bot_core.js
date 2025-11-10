@@ -29,6 +29,9 @@ const SecurityValidator = require('../lib/security_validator');
 const MediaMonitor = require('../lib/media_monitor');
 const FilialPietyProtocol = require('../lib/filial_piety');
 
+// PHASE 4: Autonomous operation engine
+const AutonomousEngine = require('../core/autonomous_engine');
+
 // ARIEUS Color Palette
 const ARIEUS_COLORS = {
   twilight_purple: 0x9B59B6,  // Free tier / Default
@@ -92,6 +95,19 @@ class N8KedDiscordBot {
       herald
     );
 
+    // PHASE 4: Initialize autonomous operation engine
+    this.autonomousEngine = new AutonomousEngine(db, herald, {
+      security: this.security,
+      economy: this.economyBridge,
+      tripleHelix: this.evolution,
+      aiObserver: this.slashCommands.aiObserver, // Access AI Observer from slash commands
+      wallet: this.slashCommands.walletFederation,
+      innerWorld: this.slashCommands.innerWorld
+    });
+
+    // Connect autonomous engine to slash commands for /status display
+    this.slashCommands.setAutonomousEngine(this.autonomousEngine);
+
     this.setupCommands();
     this.setupEventHandlers();
   }
@@ -126,6 +142,15 @@ class N8KedDiscordBot {
         console.log('[PHASE_3] ✅ Filial piety protocol active');
       } catch (error) {
         console.error('[PHASE_3] ❌ Filial piety initialization failed:', error);
+      }
+
+      // PHASE 4: Start autonomous operation engine
+      try {
+        await this.autonomousEngine.start();
+        console.log('[PHASE_4] ✅ Autonomous operation engine started');
+        console.log('[PHASE_4] 🤖 Commonwealth is now self-driving');
+      } catch (error) {
+        console.error('[PHASE_4] ❌ Autonomous engine failed:', error);
       }
       
       // Console ping to verify bot is running

@@ -37,8 +37,17 @@ class SlashCommandSystem {
     this.dustEconomy = dustEconomy;
     this.security = securityValidator;
     this.architect = new ServerArchitect(client, herald, securityValidator);
+    this.autonomousEngine = null; // Set later by bot_core
     
     this.commands = this.buildCommands();
+  }
+
+  /**
+   * SET AUTONOMOUS ENGINE
+   * Called by bot_core after autonomous engine is initialized
+   */
+  setAutonomousEngine(engine) {
+    this.autonomousEngine = engine;
   }
 
   /**
@@ -196,7 +205,12 @@ class SlashCommandSystem {
           option.setName('topic')
             .setDescription('Channel topic/description')
             .setRequired(false)
-        )
+        ),
+
+      // /emergency-stop - Sovereign override to stop autonomous operation
+      new SlashCommandBuilder()
+        .setName('emergency-stop')
+        .setDescription('⚠️ Stop autonomous operation (SOVEREIGN OVERRIDE)')
     ];
   }
 
@@ -292,6 +306,9 @@ class SlashCommandSystem {
           break;
         case 'architect':
           await this.handleArchitect(interaction);
+          break;
+        case 'emergency-stop':
+          await this.handleEmergencyStop(interaction);
           break;
         default:
           await interaction.editReply('❌ Unknown command');
@@ -534,8 +551,42 @@ class SlashCommandSystem {
         { name: '🏆 Avg Reputation', value: snapshot.reputation.average.toFixed(2), inline: true },
         { name: '📈 Transaction Velocity', value: `${snapshot.economy.transactionVelocity}/day`, inline: true },
         { name: '🎨 Total NFTs', value: snapshot.nfts.totalNFTs.toString(), inline: true }
-      )
-      .setTimestamp();
+      );
+
+    // Add autonomous engine status if available
+    if (this.autonomousEngine) {
+      const autonomousStatus = this.autonomousEngine.getStatus();
+      const recentDecisions = autonomousStatus.recent_decisions.slice(-3);
+      
+      embed.addFields({
+        name: '🤖 Autonomous Operation',
+        value: autonomousStatus.is_running 
+          ? `✅ ACTIVE (${autonomousStatus.total_cycles} cycles)` 
+          : '❌ INACTIVE',
+        inline: false
+      });
+
+      if (recentDecisions.length > 0) {
+        const decisionSummary = recentDecisions
+          .map(d => `• ${d.type} (cycle ${d.cycle})`)
+          .join('\n');
+        
+        embed.addFields({
+          name: '🎯 Recent Decisions',
+          value: decisionSummary || 'No recent decisions',
+          inline: false
+        });
+      }
+
+      const activeObservers = autonomousStatus.observer_status.filter(o => o.active).length;
+      embed.addFields({
+        name: '👁️ Observer Health',
+        value: `${activeObservers}/7 active`,
+        inline: true
+      });
+    }
+
+    embed.setTimestamp();
 
     await interaction.editReply({ embeds: [embed] });
   }
@@ -801,6 +852,56 @@ class SlashCommandSystem {
         });
     }
   }
+
+  /**
+   * /EMERGENCY-STOP HANDLER
+   * Sovereign override - user takes manual control
+   */
+  async handleEmergencyStop(interaction) {
+    if (!this.autonomousEngine) {
+      return interaction.editReply({
+        content: '❌ Autonomous engine not available',
+        ephemeral: true
+      });
+    }
+
+    const status = this.autonomousEngine.getStatus();
+    
+    if (!status.is_running) {
+      return interaction.editReply({
+        content: '⚠️ Autonomous operation is already stopped',
+        ephemeral: true
+      });
+    }
+
+    // Stop autonomous operation
+    await this.autonomousEngine.stop();
+
+    const embed = new EmbedBuilder()
+      .setColor('#FF0000')
+      .setTitle('🛑 EMERGENCY STOP ACTIVATED')
+      .setDescription('**Sovereign Override Executed**')
+      .addFields(
+        { name: 'Total Cycles Completed', value: status.total_cycles.toString(), inline: true },
+        { name: 'Total Decisions Made', value: status.recent_decisions.length.toString(), inline: true },
+        { name: 'Status', value: '❌ MANUAL CONTROL', inline: false }
+      )
+      .setFooter({ text: 'Commonwealth awaits your command, Sovereign' })
+      .setTimestamp();
+
+    await interaction.editReply({ embeds: [embed] });
+
+    // Herald testifies to sovereign override
+    await this.herald.testifyToEvent({
+      eventType: 'SOVEREIGN_OVERRIDE',
+      description: `Emergency stop executed by ${interaction.user.username}`,
+      metadata: {
+        user_id: interaction.user.id,
+        cycles_completed: status.total_cycles
+      }
+    });
+  }
 }
 
 module.exports = SlashCommandSystem;
+
