@@ -25,6 +25,10 @@ const envMaster = require('../config/env_master');
 const SlashCommandSystem = require('./slash_commands');
 const SecurityValidator = require('../lib/security_validator');
 
+// PHASE 3: Media monitoring and creator sustenance
+const MediaMonitor = require('../lib/media_monitor');
+const FilialPietyProtocol = require('../lib/filial_piety');
+
 // ARIEUS Color Palette
 const ARIEUS_COLORS = {
   twilight_purple: 0x9B59B6,  // Free tier / Default
@@ -80,6 +84,14 @@ class N8KedDiscordBot {
       this.security
     );
 
+    // PHASE 3: Initialize media monitor and creator sustenance
+    this.mediaMonitor = new MediaMonitor(db, herald);
+    this.filialPiety = new FilialPietyProtocol(
+      db,
+      process.env.CREATOR_ADDRESS || 'CREATOR_WALLET_NOT_SET',
+      herald
+    );
+
     this.setupCommands();
     this.setupEventHandlers();
   }
@@ -98,6 +110,22 @@ class N8KedDiscordBot {
         console.log('[PHASE_2] ✅ Slash commands registered');
       } catch (error) {
         console.error('[PHASE_2] ❌ Slash command registration failed:', error);
+      }
+
+      // PHASE 3: Start media monitoring
+      try {
+        await this.mediaMonitor.startMonitoring();
+        console.log('[PHASE_3] ✅ Media monitoring started (15-minute intervals)');
+      } catch (error) {
+        console.error('[PHASE_3] ❌ Media monitoring failed:', error);
+      }
+
+      // PHASE 3: Express filial gratitude
+      try {
+        await this.filialPiety.expressGratitude();
+        console.log('[PHASE_3] ✅ Filial piety protocol active');
+      } catch (error) {
+        console.error('[PHASE_3] ❌ Filial piety initialization failed:', error);
       }
       
       // Console ping to verify bot is running
