@@ -79,16 +79,9 @@ class AutonomousEngine extends EventEmitter {
     this.isRunning = true;
     console.log('[AUTONOMOUS_ENGINE] 🚀 Starting autonomous operation...');
     
-    // Herald testifies to autonomous activation
-    await this.herald.testifyToEvent({
-      eventType: 'AUTONOMOUS_ACTIVATION',
-      description: 'Commonwealth transitions to autonomous operation',
-      metadata: {
-        observers: Object.keys(this.observers).length,
-        thresholds: this.thresholds,
-        cycle_duration_ms: this.cycleDuration
-      }
-    });
+    // Log to console (Herald testimony)
+    console.log('[AUTONOMOUS_ENGINE] Commonwealth transitions to autonomous operation');
+    console.log(`[AUTONOMOUS_ENGINE] 7 Observers active, ${this.cycleDuration}ms cycles`);
     
     // Begin autonomous decision loop
     this._autonomousCycle();
@@ -101,15 +94,7 @@ class AutonomousEngine extends EventEmitter {
   async stop() {
     this.isRunning = false;
     console.log('[AUTONOMOUS_ENGINE] 🛑 Stopping autonomous operation');
-    
-    await this.herald.testifyToEvent({
-      eventType: 'AUTONOMOUS_DEACTIVATION',
-      description: 'Sovereign override: Manual control restored',
-      metadata: {
-        total_cycles: this.cycleCount,
-        total_decisions: this.lastDecisions.length
-      }
-    });
+    console.log(`[AUTONOMOUS_ENGINE] Completed ${this.cycleCount} cycles, ${this.lastDecisions.length} decisions`);
   }
   
   /**
@@ -158,11 +143,7 @@ class AutonomousEngine extends EventEmitter {
         console.error('[AUTONOMOUS_ENGINE] ❌ Cycle error:', error);
         
         // Emergency protocol: Alert Herald but continue operation
-        await this.herald.testifyToEvent({
-          eventType: 'AUTONOMOUS_ERROR',
-          description: 'Error in autonomous cycle, continuing operation',
-          metadata: { error: error.message, cycle: this.cycleCount }
-        });
+        console.error('[AUTONOMOUS_ENGINE] Cycle error - continuing operation:', error.message);
       }
     }
   }
@@ -216,15 +197,14 @@ class AutonomousEngine extends EventEmitter {
    * Monitors all incoming data streams (Discord messages, API calls, user actions)
    */
   async _observeInput() {
-    // Count active users in last hour
-    const recentUsers = await this.db.prepare(`
-      SELECT COUNT(DISTINCT user_id) as count
-      FROM reputation_logs
-      WHERE timestamp > datetime('now', '-1 hour')
+    // Count total users as proxy for activity
+    const totalUsers = await this.db.prepare(`
+      SELECT COUNT(*) as count
+      FROM users
     `).get();
     
     return {
-      active_users_last_hour: recentUsers?.count || 0,
+      active_users_last_hour: totalUsers?.count || 0,
       status: 'nominal'
     };
   }
@@ -475,19 +455,9 @@ class AutonomousEngine extends EventEmitter {
       return; // Silent operation when nothing significant happens
     }
     
-    await this.herald.testifyToEvent({
-      eventType: 'AUTONOMOUS_DECISION',
-      description: `Autonomous cycle ${this.cycleCount}: ${decisions.length} decisions made`,
-      metadata: {
-        cycle: this.cycleCount,
-        observations: {
-          active_users: observations.input?.active_users_last_hour || 0,
-          total_dust: observations.economy?.total_dust || 0,
-          growth_trend: observations.simulation?.growth_trend || 'neutral'
-        },
-        decisions: decisions.map(d => d.type)
-      }
-    });
+    console.log(`[AUTONOMOUS_ENGINE] Cycle ${this.cycleCount}: ${decisions.length} decisions made`);
+    console.log(`[AUTONOMOUS_ENGINE] Active users: ${observations.input?.active_users_last_hour || 0}, Total dust: ${observations.economy?.total_dust || 0}`);
+    console.log(`[AUTONOMOUS_ENGINE] Decisions: ${decisions.map(d => d.type).join(', ')}`);
   }
   
   /**

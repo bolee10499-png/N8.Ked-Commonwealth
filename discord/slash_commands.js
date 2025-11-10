@@ -902,15 +902,9 @@ class SlashCommandSystem {
 
     await interaction.editReply({ embeds: [embed] });
 
-    // Herald testifies to sovereign override
-    await this.herald.testifyToEvent({
-      eventType: 'SOVEREIGN_OVERRIDE',
-      description: `Emergency stop executed by ${interaction.user.username}`,
-      metadata: {
-        user_id: interaction.user.id,
-        cycles_completed: status.total_cycles
-      }
-    });
+    // Log sovereign override
+    console.log(`[SOVEREIGN_OVERRIDE] Emergency stop executed by ${interaction.user.username} (${interaction.user.id})`);
+    console.log(`[SOVEREIGN_OVERRIDE] Cycles completed: ${status.total_cycles}`);
   }
 }
 
