@@ -366,37 +366,47 @@ class SlashCommandSystem {
     const innerWorld = new InnerWorld();
     const exploration = innerWorld.explore(userId, location);
 
-    // Convert to 3D topology for Blender
-    const topology = innerWorld.getLocationTopology(location);
-
-    if (!topology) {
+    if (!exploration) {
       return interaction.editReply({
         content: `❌ Location "${location}" not found. Use /help to see available locations.`,
         ephemeral: true
       });
     }
 
-    // Generate Blender visualization (if server is running)
+    // Get system metrics for 3D visualization
+    const aiObserver = require('../lib/ai_observer');
+    const observer = new aiObserver(this.db);
+    const systemMetrics = observer.getCompleteSnapshot();
+
+    // Generate 3D visualization using Blender integration
+    const BlenderIntegration = require('../lib/blender_integration');
+    const blender = new BlenderIntegration();
+    
     let imageBuffer = null;
     let visualizationNote = '';
     
     try {
-      const fetch = require('node-fetch');
-      const response = await fetch('http://localhost:8000/generate_scene', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topology }),
-        timeout: 5000 // 5 second timeout
-      });
-
-      if (response.ok) {
-        imageBuffer = await response.buffer();
+      // Check if Blender service is available
+      const isAvailable = await blender.checkHealth();
+      
+      if (isAvailable) {
+        console.log('[EXPLORE] Generating 3D scene...');
+        imageBuffer = await blender.generateExplorationScene(exploration, systemMetrics);
+        
+        // Save render to disk for historical record
+        const timestamp = Date.now();
+        const filename = `explore_${location}_${userId}_${timestamp}.png`;
+        await blender.saveRender(imageBuffer, filename);
+        
+        console.log('[EXPLORE] 3D scene generated successfully');
       } else {
-        visualizationNote = '\n\n⚠️ 3D visualization unavailable (Blender service offline)';
+        console.log('[EXPLORE] Blender service offline, using fallback');
+        visualizationNote = '\n\n' + blender.generateFallbackScene(exploration);
       }
     } catch (error) {
-      console.log('[EXPLORE] Blender service not available:', error.message);
-      visualizationNote = '\n\n⚠️ 3D visualization unavailable (Blender service offline)';
+      console.error('[EXPLORE] Blender visualization failed:', error.message);
+      const blenderFallback = new BlenderIntegration();
+      visualizationNote = '\n\n' + blenderFallback.generateFallbackScene(exploration);
     }
 
     // Record in database
@@ -412,6 +422,7 @@ class SlashCommandSystem {
       depth: exploration.depth,
       lore: exploration.lore,
       dust_spent: 10,
+      visualization: imageBuffer ? '3D_rendered' : 'ASCII_fallback',
       timestamp: new Date().toISOString()
     });
 
