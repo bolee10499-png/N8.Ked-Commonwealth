@@ -63,9 +63,9 @@ class N8KedMinimalBot {
         // Register minimal commands (observe + override)
         await this.slashCommands.registerCommands();
 
-        // Start media monitoring (autonomous viral tracking)
-        await this.mediaMonitor.startMonitoring(15 * 60 * 1000);
-        console.log('[AUTONOMOUS] ✅ Media monitoring active');
+        // Media monitoring temporarily disabled - fixing database schema
+        // await this.mediaMonitor.startMonitoring(15 * 60 * 1000);
+        console.log('[AUTONOMOUS] Media monitoring paused during emergence phase');
 
         // Start autonomous decision engine
         await this.autonomousEngine.start();
@@ -103,6 +103,29 @@ class N8KedMinimalBot {
 
     this.client.on('warn', info => {
       console.warn('[DISCORD_WARN]', info);
+    });
+
+    // Critical: Handle disconnection
+    this.client.on('disconnect', () => {
+      console.error('[DISCORD] ⚠️ Client disconnected - but autonomous operation continues');
+    });
+
+    this.client.on('shardDisconnect', (event, shardId) => {
+      console.error(`[DISCORD] ⚠️ Shard ${shardId} disconnected:`, event);
+    });
+
+    this.client.on('shardError', (error, shardId) => {
+      console.error(`[DISCORD] ❌ Shard ${shardId} error:`, error);
+    });
+
+    // Keep process alive even if Discord dies
+    process.on('beforeExit', (code) => {
+      console.log('[PROCESS] ⚠️ beforeExit event - code:', code);
+      console.log('[PROCESS] Autonomous engine still running:', this.autonomousEngine.isRunning);
+    });
+
+    process.on('exit', (code) => {
+      console.log('[PROCESS] 🛑 EXIT EVENT - code:', code);
     });
 
     // Heartbeat (every 30 seconds - less verbose)

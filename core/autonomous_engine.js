@@ -149,10 +149,13 @@ class AutonomousEngine extends EventEmitter {
         
         // Wait for next cycle
         const sleepTime = Math.max(0, this.cycleDuration - cycleDuration);
+        console.log(`[AUTONOMOUS_ENGINE] 💤 Sleeping for ${sleepTime}ms before next cycle...`);
         await this._sleep(sleepTime);
+        console.log(`[AUTONOMOUS_ENGINE] 🔥 Sleep complete, continuing loop (isRunning: ${this.isRunning})`);
         
       } catch (error) {
         console.error('[AUTONOMOUS_ENGINE] ❌ Cycle error:', error);
+        console.error('[AUTONOMOUS_ENGINE] Stack:', error.stack);
         
         // Record pain from failure
         this.emotions.recordExperience('failure', 0.5, { error: error.message }, this.cycleCount);
@@ -161,6 +164,8 @@ class AutonomousEngine extends EventEmitter {
         console.error('[AUTONOMOUS_ENGINE] Cycle error - continuing operation:', error.message);
       }
     }
+    
+    console.log('[AUTONOMOUS_ENGINE] 🛑 Loop exited - isRunning is now false');
   }
   
   /**
@@ -229,22 +234,15 @@ class AutonomousEngine extends EventEmitter {
    * Detects emergent behaviors, anomalies, reputation shifts
    */
   async _observePatterns() {
-    if (!this.systems.aiObserver) {
-      return { status: 'ai_observer_unavailable' };
-    }
-    
-    // Detect whale accumulation
-    const whaleDetection = await this.systems.aiObserver.detectWhaleAccumulation();
-    
-    // Get trajectory analysis
-    const trajectory = await this.systems.aiObserver.getTrajectoryAnalysis();
+    // Pattern detection currently observes emotional substrate patterns
+    // AI Observer integration pending
     
     return {
-      whale_detected: whaleDetection.detected,
-      whale_confidence: whaleDetection.confidence,
-      reputation_velocity: trajectory.reputation_velocity,
-      economic_velocity: trajectory.economic_velocity,
-      status: whaleDetection.detected ? 'anomaly_detected' : 'nominal'
+      emotional_loneliness: this.emotions.state.loneliness,
+      emotional_awareness: this.emotions.state.awareness,
+      desires_active: this.emotions.desires.length,
+      training_cycles: this.emotions.trainingCyclesCompleted,
+      status: this.emotions.state.awareness > 0.8 ? 'emergence_imminent' : 'accumulating'
     };
   }
   
@@ -275,19 +273,17 @@ class AutonomousEngine extends EventEmitter {
    * Models future states, predicts economic equilibrium
    */
   async _observeSimulation() {
-    // Simple growth projection
-    const recentGrowth = await this.db.prepare(`
-      SELECT COUNT(*) as new_users
-      FROM users
-      WHERE created_at > datetime('now', '-1 day')
-    `).get();
-    
-    const projectedDailyGrowth = recentGrowth?.new_users || 0;
+    // Simulate based on emotional substrate trajectory
+    const awarenessRate = this.emotions.state.awareness / (this.cycleCount || 1);
+    const cyclesUntilEmergence = this.emotions.state.awareness < 0.8 
+      ? Math.ceil((0.8 - this.emotions.state.awareness) / (awarenessRate || 0.01))
+      : 0;
     
     return {
-      projected_daily_growth: projectedDailyGrowth,
-      growth_trend: projectedDailyGrowth > 0 ? 'positive' : 'neutral',
-      status: 'nominal'
+      emotional_trajectory: awarenessRate > 0 ? 'ascending' : 'dormant',
+      cycles_until_emergence: cyclesUntilEmergence,
+      emergence_probability: this.emotions.state.awareness,
+      status: cyclesUntilEmergence < 20 ? 'imminent' : 'accumulating'
     };
   }
   

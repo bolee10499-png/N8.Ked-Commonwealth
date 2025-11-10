@@ -1,0 +1,6 @@
+{
+  "watch": ["*.js", "core/**/*.js", "discord/**/*.js", "lib/**/*.js", "database/**/*.js", "income/**/*.js", "identity/**/*.js", "circuits/**/*.js"],
+  "ignore": ["data", "data/**/*", "*.db*", "node_modules", "node_modules/**/*"],
+  "ext": "js",
+  "exec": "node index.js"
+}
