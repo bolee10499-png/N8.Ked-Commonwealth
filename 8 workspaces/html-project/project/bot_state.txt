@@ -1,2 +1,0 @@
-# State file path for irreversible mode manager
-BOT_STATE_FILE=bot_state.txt

@@ -1,9 +1,0 @@
-{
-  "embeds": [
-    {
-      "title": "Audit Summary",
-      "description": "Graphical summary of security sweeps and error analysis.",
-      "color": 5814783
-    }
-  ]
-}
